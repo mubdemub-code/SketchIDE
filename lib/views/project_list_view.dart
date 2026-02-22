@@ -144,54 +144,64 @@ class _ProjectListViewState extends State<ProjectListView> {
       expandedHeight: 100,
       floating: false,
       pinned: true,
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
             children: [
               const SizedBox(height: 40),
-              // Search Bar (like Sketchware Pro)
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Search for projects...',
-                    prefixIcon: const Icon(Icons.search),
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
+              // Search Bar with Import Button
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: TextField(
+                          controller: _searchController,
+                          decoration: InputDecoration(
+                            hintText: 'Search for projects...',
+                            prefixIcon: const Icon(Icons.search),
+                            border: InputBorder.none,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                          ),
+                          onChanged: (value) {
+                            final viewModel = context.read<ProjectViewModel>();
+                            viewModel.searchProjects(value);
+                          },
+                        ),
+                      ),
                     ),
-                  ),
-                  onChanged: (value) {
-                    final viewModel = context.read<ProjectViewModel>();
-                    viewModel.searchProjects(value);
-                  },
+                    const SizedBox(width: 8),
+                    Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.file_upload),
+                        onPressed: () => _importProject(context),
+                        tooltip: 'Import Project',
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
         ),
       ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.sort, color: Colors.black),
-          onPressed: _showSortDialog,
-          tooltip: 'Sort Projects',
-        ),
-        IconButton(
-          icon: const Icon(Icons.file_upload, color: Colors.black),
-          onPressed: () => _importProject(context),
-          tooltip: 'Import Project',
-        ),
-      ],
     );
   }
 
@@ -203,7 +213,7 @@ class _ProjectListViewState extends State<ProjectListView> {
         _buildSpecialActionItem(),
         // Projects Title
         Container(
-          margin: const EdgeInsets.fromLTRB(16, 16, 4, 6),
+          margin: const EdgeInsets.fromLTRB(10, 10, 4, 6),
           child: Row(
             children: [
               const Expanded(

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class ManifestModel {
   final String packageName;
   final String versionName;

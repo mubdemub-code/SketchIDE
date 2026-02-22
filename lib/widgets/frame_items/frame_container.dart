@@ -55,12 +55,11 @@ class _FrameContainerState extends State<FrameContainer> {
       onWidgetDragUpdate: widget.onWidgetDragUpdate,
       onWidgetDragEnd: widget.onWidgetDragEnd,
       onWidgetLongPress: (widget) {
-        print('🎯 FRAME CONTAINER LONG PRESS: ${widget.id}');
+        debugPrint('🎯 FRAME CONTAINER LONG PRESS: ${widget.id}');
         // Handle long press feedback
       },
       onDragStateChanged: (isDragging) {
-        print(
-            '🎯 FRAME CONTAINER DRAG STATE: ${widget.widgetBean.id} - $isDragging');
+        debugPrint('🎯 FRAME CONTAINER DRAG STATE: ${widget.widgetBean.id} - $isDragging');
       },
     );
   }
@@ -101,11 +100,10 @@ class _FrameContainerState extends State<FrameContainer> {
       behavior: HitTestBehavior.opaque,
       onTap: () {
         // SKETCHWARE PRO STYLE: Handle widget selection on tap
-        print('🎯 FRAME CONTAINER TAP: ${widget.widgetBean.id}');
+        debugPrint('🎯 FRAME CONTAINER TAP: ${widget.widgetBean.id}');
         if (widget.selectionService != null) {
           widget.selectionService!.selectWidget(widget.widgetBean);
-          print(
-              '🎯 SELECTION SERVICE: Widget ${widget.widgetBean.id} selected');
+          debugPrint('🎯 SELECTION SERVICE: Widget ${widget.widgetBean.id} selected');
         }
         _notifyWidgetSelected();
       },
@@ -135,10 +133,10 @@ class _FrameContainerState extends State<FrameContainer> {
         child: Container(
           key: _widgetKey,
           // SKETCHWARE PRO STYLE: Use exact width/height like ItemCardView
-          width: width != null && width! > 0
+          width: width != null && width > 0
               ? width
               : null, // ✅ Handle nullable width
-          height: height != null && height! > 0
+          height: height != null && height > 0
               ? height
               : null, // ✅ Handle nullable height
           // SKETCHWARE PRO STYLE: Minimum size like ItemCardView (32dp)
@@ -395,7 +393,7 @@ class _FrameContainerState extends State<FrameContainer> {
 
   /// SKETCHWARE PRO STYLE: Handle touch start
   void _handleTouchStart(Offset position) {
-    print('🎯 FRAME CONTAINER TOUCH START: ${widget.widgetBean.id}');
+    debugPrint('🎯 FRAME CONTAINER TOUCH START: ${widget.widgetBean.id}');
     widget.touchController
         ?.handleTouchStart(widget.widgetBean, position, _widgetKey);
   }
@@ -407,23 +405,23 @@ class _FrameContainerState extends State<FrameContainer> {
 
   /// SKETCHWARE PRO STYLE: Handle touch end
   void _handleTouchEnd(Offset position) {
-    print('🎯 FRAME CONTAINER TOUCH END: ${widget.widgetBean.id}');
+    debugPrint('🎯 FRAME CONTAINER TOUCH END: ${widget.widgetBean.id}');
     widget.touchController?.handleTouchEnd(position);
   }
 
   /// SKETCHWARE PRO STYLE: Handle touch cancel
   void _handleTouchCancel() {
-    print('🎯 FRAME CONTAINER TOUCH CANCEL: ${widget.widgetBean.id}');
+    debugPrint('🎯 FRAME CONTAINER TOUCH CANCEL: ${widget.widgetBean.id}');
     widget.touchController?.handleTouchCancel();
   }
 
   /// SKETCHWARE PRO STYLE: Notify parent about widget selection
   void _notifyWidgetSelected() {
-    print('🚀 NOTIFYING WIDGET SELECTION: ${widget.widgetBean.id}');
+    debugPrint('🚀 NOTIFYING WIDGET SELECTION: ${widget.widgetBean.id}');
     if (widget.touchController != null) {
       widget.touchController!.handleWidgetTap(widget.widgetBean);
     } else {
-      print('🚀 WARNING: touchController is null!');
+      debugPrint('🚀 WARNING: touchController is null!');
     }
   }
 }
